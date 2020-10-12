@@ -1,8 +1,12 @@
 import React from 'react';
+import CreateGlobalStyle from './styles/global';
 
 const App: React.FC  = () => {
   return (
-    <h1>Rocketseat</h1>
+    <>
+      <CreateGlobalStyle />
+      <h1>Rocketseat</h1>
+    </>
   );
 }
 
