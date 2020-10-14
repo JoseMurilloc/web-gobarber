@@ -6,15 +6,21 @@ import { FiLogIn, FiMail, FiLock, FiUser, FiArrowLeft } from 'react-icons/fi';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { Form } from '@unform/web';
 
 const SignUp: React.FC = () => {
+  
+  function handleSubmit(data: object) {
+    console.log(data);
+  }
+
   return (
     <Container>
       <Background />
       <Content>
         <img src={logo} alt="Gobarber"/>
 
-        <form>
+        <Form onSubmit={handleSubmit}>
           <h1>Faça seu cadastro</h1>
 
           <Input 
@@ -42,7 +48,7 @@ const SignUp: React.FC = () => {
             Cadastrar
           </Button>
 
-        </form>
+        </Form>
         
         <a href="/">
           <FiArrowLeft />
