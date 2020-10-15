@@ -1,5 +1,11 @@
 import { useField } from '@unform/core';
-import React, { InputHTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
+import React, { 
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { IconBaseProps } from 'react-icons/lib';
 
 import { Container } from './styles';
@@ -17,10 +23,16 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { fieldName, error, registerField, defaultValue } = useField(name);
 
+  /**
+   * Quando o input está recebendo focos 
+   */
   const handleInputFocus = useCallback(() => {
     setIsFocus(true);
   }, [])
 
+  /**
+   * Bluer básicamente é quando input perde o focus
+   */
   const handleInputBluer = useCallback(() => {
     
     if (inputRef.current?.value) 
