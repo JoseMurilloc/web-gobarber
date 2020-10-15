@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import * as Yup from 'yup';
 
 import { Background, Container, Content } from './styles';
@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { AuthContext } from '../../context/authContext';
+import { useAuth } from '../../hooks/authContext';
 
 interface SiginFormData {
   email: string;
@@ -21,20 +21,32 @@ const SignIn: React.FC = () => {
 
 
   const formRef = useRef<FormHandles>(null);
-  const { sigIn } = useContext(AuthContext);
-  
-  
+  const { sigIn, user } = useAuth();
+    
   const handleSubmit = useCallback(async(data: SiginFormData) => {
    try {
+    
+
+    /**
+     * Formulario validação via Yup scheme
+     */
+
     formRef.current?.setErrors({});   
     const scheme = Yup.object().shape({
       email: Yup.string().required('E-mail obrigatório').email('Digite um email válido'),
       password: Yup.string().required('Senha é obrigatória'),
     });
 
+    /**
+     * Checando se ocorreu algum errona validação dos inputs
+     */
     await scheme.validate(data, {
       abortEarly: false
     })
+
+    /**
+     * Chamando de fato a função enviando as credenciais para logar
+     */
 
     sigIn({ email: data.email, password: data.password });
 
