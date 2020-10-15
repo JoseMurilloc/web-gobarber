@@ -1,13 +1,16 @@
 import React from 'react';
-// import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import AuthContext from './context/authContext';
+import SignIp from './pages/SignIn';
+// import SignUp from './pages/SignUp';
 import CreateGlobalStyle from './styles/global';
 
 const App: React.FC  = () => {
   return (
     <>
       <CreateGlobalStyle />
-      <SignUp />
+      <AuthContext.Provider value={ { name: 'Murillo' } }>
+        <SignIp />
+      </AuthContext.Provider>
     </>
   );
 }
