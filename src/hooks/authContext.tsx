@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useState } from "react";
-import axios from 'axios';
 import { useContext } from "react";
+import api from "../services/api";
 
 interface AuthState {
   token: string;
@@ -41,7 +41,7 @@ const AuthProvider: React.FC = ({ children }) => {
    * Login de fato (chamando api post "/sessions")
    */
   const sigIn = useCallback(async ({ email, password}) => {
-    const response = await axios.post('http://localhost:3333/sessions', {
+    const response = await api.post('/sessions', {
       email,
       password
     })
