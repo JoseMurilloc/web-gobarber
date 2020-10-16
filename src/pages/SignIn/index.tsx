@@ -10,7 +10,8 @@ import Button from '../../components/Button';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { useAuth } from '../../hooks/authContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 interface SiginFormData {
   email: string;
@@ -21,7 +22,8 @@ const SignIn: React.FC = () => {
 
 
   const formRef = useRef<FormHandles>(null);
-  const { sigIn, user } = useAuth();
+  const { sigIn } = useAuth();
+  const { addToast } = useToast();
     
   const handleSubmit = useCallback(async(data: SiginFormData) => {
    try {
@@ -48,7 +50,7 @@ const SignIn: React.FC = () => {
      * Chamando de fato a função enviando as credenciais para logar
      */
 
-    sigIn({ email: data.email, password: data.password });
+    await sigIn({ email: data.email, password: data.password });
 
    } catch(err) {
      if (err instanceof Yup.ValidationError) {
@@ -57,8 +59,9 @@ const SignIn: React.FC = () => {
       formRef.current?.setErrors(errors)   
      }
      
+     addToast();
    }
-  }, [sigIn])
+  }, [sigIn, addToast])
 
   return (
     <Container>
