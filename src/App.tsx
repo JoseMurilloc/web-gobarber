@@ -1,4 +1,5 @@
 import React from 'react';
+import ToastContainer from './components/ToastContainer';
 import { AuthProvider } from './hooks/authContext';
 import SignIp from './pages/SignIn';
 // import SignUp from './pages/SignUp';
@@ -11,6 +12,8 @@ const App: React.FC  = () => {
       <AuthProvider>
         <SignIp />
       </AuthProvider>
+
+      <ToastContainer />
     </>
   );
 }
