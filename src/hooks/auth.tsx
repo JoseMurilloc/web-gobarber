@@ -19,8 +19,15 @@ interface AuthContextData {
   sigOut(): void;
 }
 
+/**
+ * Criando o contexto incializando vázio
+ */
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
+/**
+ * O Componente de fato que irá encapsular os demais que pertecem
+ * a esse contexto de autentificação
+ */
 const AuthProvider: React.FC = ({ children }) => {
   
   const [data, setData] = useState<AuthState>(() => {
@@ -64,6 +71,10 @@ const AuthProvider: React.FC = ({ children }) => {
   }, [])
 
   return (
+    /**
+     * Value são todos  os dados globais ou funções pertecente a esse
+     * componente que podem ser acessada pelos demais
+     */
     <AuthContext.Provider value={{ user: data.user, sigIn, sigOut }}>
       { children }
     </AuthContext.Provider>
