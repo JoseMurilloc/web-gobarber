@@ -17,6 +17,9 @@ export interface ToastMessage{
 
 const ToaskContext = createContext<ToastContextData>({} as ToastContextData);
 
+/**
+ * Component
+ */
 const ToastProvider: React.FC = ({ children }) => {
   const [message, setMessage] = useState<ToastMessage[]>([])
 
