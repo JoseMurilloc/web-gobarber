@@ -11,14 +11,24 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import api from '../../services/api';
+import { useToast } from '../../hooks/toast';
+
+interface SignUpFormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const SignUp: React.FC = () => {
   
   const formRef = useRef<FormHandles>(null);
+  const { addToast } = useToast();
+  const history = useHistory();
 
   
-  const handleSubmit = useCallback(async(data: object) => {
+  const handleSubmit = useCallback(async(data: SignUpFormData) => {
    try {
     formRef.current?.setErrors({});   
     const scheme = Yup.object().shape({
@@ -31,13 +41,32 @@ const SignUp: React.FC = () => {
       abortEarly: false
     })
 
-   } catch(err) {
+    await api.post('/users', data);
     
-    const errors = getValidationErrors(err)
+    addToast({
+      type: 'sucess',
+      title: 'Cadastro realizado!',
+      description: 'Você já pode fazer seu logon no GoBarber'
+    });
 
-    formRef.current?.setErrors(errors)   
+    history.push('/');
+
+   } catch(err) {
+    if (err instanceof Yup.ValidationError) {
+      const errors = getValidationErrors(err)
+
+      formRef.current?.setErrors(errors) 
+      
+      return;
+     }
+     
+     addToast({
+       type: 'error',
+       title: 'Error no cadastro',
+       description: 'Ocorreu um erro ao fazer o cadastro, tente novamente.'
+     });
    }
-  }, [])
+  }, [addToast, history])
 
   return (
     <Container>

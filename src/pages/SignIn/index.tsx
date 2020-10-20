@@ -12,7 +12,7 @@ import { FormHandles } from '@unform/core';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 interface SiginFormData {
   email: string;
@@ -25,7 +25,8 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { sigIn } = useAuth();
   const { addToast } = useToast();
-    
+  const history = useHistory();
+
   const handleSubmit = useCallback(async(data: SiginFormData) => {
    try {
     
@@ -53,6 +54,8 @@ const SignIn: React.FC = () => {
 
     await sigIn({ email: data.email, password: data.password });
 
+    history.push('/dashboard');
+
    } catch(err) {
      if (err instanceof Yup.ValidationError) {
       const errors = getValidationErrors(err)
@@ -68,7 +71,7 @@ const SignIn: React.FC = () => {
        description: 'Ocorreu um erro ao fazer o login, cheque as cresdenciais.'
      });
    }
-  }, [sigIn, addToast])
+  }, [sigIn, addToast, history])
 
   return (
     <Container>
