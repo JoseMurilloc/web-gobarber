@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import DayPicker, { DayModifiers } from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
 
 import { 
   Container,
@@ -20,6 +22,13 @@ import { useAuth } from '../../hooks/auth';
 const Dashboard: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const { sigOut, user } = useAuth()
+
+  const handleDateChange = useCallback((day: Date,
+    modifiers: DayModifiers) => {
+      if(modifiers.available) {
+        setSelectedDate(day)
+      }
+    },[])
 
   return (
     <Container>
@@ -49,73 +58,96 @@ const Dashboard: React.FC = () => {
        </HeaderContent>
      </Header>
      <Content>
-       <Schedule>
-          <h1>Horário agendados</h1>
-          <p>
-            <span>Hoje</span>
-            <span>Dia 06</span>
-            <span>Segunda-feira</span>
-          </p>
+      <Schedule>
+        <h1>Horário agendados</h1>
+        <p>
+          <span>Hoje</span>
+          <span>Dia 06</span>
+          <span>Segunda-feira</span>
+        </p>
 
-          <NextAppointment>
-            <strong>Atendimento a seguir</strong>
+        <NextAppointment>
+          <strong>Atendimento a seguir</strong>
+
+          <div>
+            <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
+            <strong>José Murillo</strong>
+
+            <span>
+              <FiClock />
+              08:00
+            </span>
+          </div>
+        </NextAppointment>
+
+        <Section>
+          <strong>Manha</strong>
+
+          <Appointment>
+            <span>
+              <FiClock />
+              08:00
+            </span>
 
             <div>
               <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
               <strong>José Murillo</strong>
-
-              <span>
-                <FiClock />
-                08:00
-              </span>
             </div>
-          </NextAppointment>
+          </Appointment>
 
-          <Section>
-            <strong>Manha</strong>
+          <Appointment>
+            <span>
+              <FiClock />
+              08:00
+            </span>
 
-            <Appointment>
-              <span>
-                <FiClock />
-                08:00
-              </span>
+            <div>
+              <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
+              <strong>José Murillo</strong>
+            </div>
+          </Appointment>
+        </Section>
 
-              <div>
-                <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
-                <strong>José Murillo</strong>
-              </div>
-            </Appointment>
+        <Section>
+          <strong>Tarde</strong>
 
-            <Appointment>
-              <span>
-                <FiClock />
-                08:00
-              </span>
+          <Appointment>
+            <span>
+              <FiClock />
+              08:00
+            </span>
 
-              <div>
-                <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
-                <strong>José Murillo</strong>
-              </div>
-            </Appointment>
-          </Section>
-
-          <Section>
-            <strong>Tarde</strong>
-
-            <Appointment>
-              <span>
-                <FiClock />
-                08:00
-              </span>
-
-              <div>
-                <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
-                <strong>José Murillo</strong>
-              </div>
-            </Appointment>
-          </Section>
-       </Schedule>
-       <Calendar />
+            <div>
+              <img src="https://avatars.githubusercontent.com/u/43470555?s=460&u=d5a88d8aa43e4fc0f53a417320d1cc6fb4fc13d5&v=4" alt="Profile"/>
+              <strong>José Murillo</strong>
+            </div>
+          </Appointment>
+        </Section>
+      </Schedule>
+      <Calendar>
+        <DayPicker
+          weekdaysShort={['D', 'S', 'T','Q', 'Q', 'S', 'S']}
+          fromMonth={new Date()}
+          disabledDays={[{daysOfWeek: [0,6]}]}
+          modifiers={{available: {daysOfWeek: [1,2,3,4,5]}}}
+          onDayClick={handleDateChange}
+          selectedDays={selectedDate}
+          months={[
+            'Janeiro',
+            'Fevereiro',
+            'Março',
+            'Abril',
+            'Maio',
+            'Junho',
+            'Julho',
+            'Agosto',
+            'Setembro',
+            'Outubro',
+            'Novembro',
+            'Dezembro',
+          ]}
+        />
+      </Calendar>
      </Content>
     </Container>
   );
