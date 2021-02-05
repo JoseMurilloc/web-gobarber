@@ -3,8 +3,8 @@ import styled, { css } from 'styled-components';
 
 
 interface ToastProps {
-  type?: 'sucess' | 'error' | 'info';
-  hasDescription: boolean;
+  type?: 'success' | 'error' | 'info';
+  hasDescription: number;
 }
 
 
@@ -17,7 +17,7 @@ const toastTypeVariations = {
     background: #fddede;
     color: #c53030;
   `,
-  sucess: css`
+  success: css`
     background: #e6fffa;
     color: #2e656a;
   `
