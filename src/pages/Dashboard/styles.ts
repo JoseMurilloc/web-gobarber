@@ -215,6 +215,10 @@ export const Section = styled.section`
     border-bottom: 1xp solid #3e3b47;
     display: block;
     padding-bottom: 16px;
+
+    > p {
+      color: #999591;
+    }
   }
 `;
 
@@ -231,6 +235,7 @@ export const Appointment = styled.div`
     display: flex;
     align-items: center;
     color: #f4edeb;
+    width: 70px;
     
     svg {
       margin-right: 8px;
