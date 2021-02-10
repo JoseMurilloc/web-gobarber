@@ -32,9 +32,9 @@ interface Appointment {
   id: string;
   date: string;
   hourFormatted: string;
-  user: {
+  provider: {
     name: string;
-    avatar_utl: string;
+    avatar_url: string;
   }
 }
 
@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
     api.get<Appointment[]>(`/appointments/me`, {
       params: {
         year: selectedDate.getFullYear(),
-        month: selectedDate.getMonth(),
+        month: selectedDate.getMonth() + 1,
         day: selectedDate.getDate()
       }
     }).then(response => {
@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
     return appointments.find(appointment => isAfter(parseISO(appointment.date), new Date()))
   }, [appointments])
 
-  return (
+    return (
     <Container>
      <Header>
        <HeaderContent>
@@ -165,8 +165,8 @@ const Dashboard: React.FC = () => {
             <strong>Agendamento a seguir</strong>
 
             <div>
-              <img src={nextAppointment.user.avatar_utl} alt={nextAppointment.user.name}/>
-              <strong>{nextAppointment.user.name}</strong>
+              <img src={nextAppointment.provider.avatar_url} alt={nextAppointment.provider.name}/>
+              <strong>{nextAppointment.provider.name}</strong>
 
               <span>
                 <FiClock />
@@ -192,10 +192,10 @@ const Dashboard: React.FC = () => {
 
               <div>
                 <img 
-                  src={appointment.user.avatar_utl} 
-                  alt={appointment.user.name}
+                  src={appointment.provider.avatar_url} 
+                  alt={appointment.provider.name}
                 />
-                <strong>{appointment.user.name}</strong>
+                <strong>{appointment.provider.name}</strong>
               </div>
           </Appointment>
           ))}
@@ -220,10 +220,10 @@ const Dashboard: React.FC = () => {
 
               <div>
                 <img 
-                  src={appointment.user.avatar_utl} 
-                  alt={appointment.user.name}
+                  src={appointment.provider.avatar_url} 
+                  alt={appointment.provider.name}
                 />
-                <strong>{appointment.user.name}</strong>
+                <strong>{appointment.provider.name}</strong>
               </div>
           </Appointment>
           ))}
