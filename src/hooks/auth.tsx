@@ -24,6 +24,7 @@ interface AuthContextData {
 
   sigIn(credentials: Credentials): Promise<void>;
   sigOut(): void;
+  updatedAvatar(user: User): void;
 }
 
 /**
@@ -81,12 +82,21 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ } as AuthState);
   }, [])
 
+  const updatedAvatar = useCallback(async(user: User) => {
+    localStorage.setItem('@GBB:user', JSON.stringify(user));
+
+    setData({
+      token: data.token,
+      user,
+    })
+  }, [setData, data.token])
+
   return (
     /**
      * Value são todos  os dados globais ou funções pertecente a esse
      * componente que podem ser acessada pelos demais
      */
-    <AuthContext.Provider value={{ user: data.user, sigIn, sigOut }}>
+    <AuthContext.Provider value={{ user: data.user, sigIn, sigOut, updatedAvatar }}>
       { children }
     </AuthContext.Provider>
   )

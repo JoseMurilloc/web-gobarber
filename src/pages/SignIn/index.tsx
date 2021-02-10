@@ -29,11 +29,6 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = useCallback(async(data: SiginFormData) => {
    try {
-    
-
-    /**
-     * Formulario validação via Yup scheme
-     */
 
     formRef.current?.setErrors({});   
     const scheme = Yup.object().shape({
@@ -41,16 +36,9 @@ const SignIn: React.FC = () => {
       password: Yup.string().required('Senha é obrigatória'),
     });
 
-    /**
-     * Checando se ocorreu algum errona validação dos inputs
-     */
     await scheme.validate(data, {
       abortEarly: false
     })
-
-    /**
-     * Chamando de fato a função enviando as credenciais para logar
-     */
 
     await sigIn({ email: data.email, password: data.password });
 
